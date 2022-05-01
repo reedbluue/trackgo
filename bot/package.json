@@ -1,0 +1,23 @@
+{
+  "name": "trackgo-bot",
+  "version": "1.0.0",
+  "description": "Bot TrackGo",
+  "main": "./src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon --inspect ./src/index.js"
+  },
+  "keywords": [],
+  "author": "Igor Oliveira",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "node-fetch": "^3.2.3",
+    "telegraf": "^4.7.0"
+  }
+}
