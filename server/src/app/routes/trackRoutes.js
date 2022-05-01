@@ -1,5 +1,5 @@
 import express from "express";
-import TrackController from "../controllers/trackController.js";
+import TrackController from "../controllers/TrackController.js";
 
 const trackRoutes = express.Router();
 
