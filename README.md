@@ -6,7 +6,7 @@
 
 ## Sobre o projeto
 
-TrackGo é um projeto simples para solucionar uma demanda pessoal para rastreio de encomendas do Correios Brasil.
+TrackGo é um projeto simples, em desenvolvimento, feito para solucionar uma demanda pessoal para rastreio de encomendas do Correios Brasil.
 
 ### Ajustes e melhorias
 
@@ -33,7 +33,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 Para instalar o TrackGo Bot, siga estas etapas:
 
-> Faça um clone do projeto:
+> Faça um clone do projeto main:
 ```
 git clone https://github.com/reedbluue/trackgo.git
 ```
@@ -59,7 +59,14 @@ DB_PASS= | <deixar em branco caso não tenha>
 TOKEN=<token de um bot telegram>
 ```
 
-> Inicialize os serviços em `./bot` e `./server`:
+> Na pasta do servidor `./server` executar os seguintes comandos para a inicialização do banco de dados:
+
+```
+npx sequelize db:create
+npx sequelize db:migrate
+```
+
+> Inicialize os serviços em `./bot` e `./server` com o comando:
 ```
 npm run start
 ```
@@ -86,7 +93,7 @@ Para utilizar o TrackGo Bot, basta iniciar uma conversa no chat do seu bot :)
 
 > `/stop` - desabilita o monitoramento automático de rastreio do bot
 
-## 🤝 Acknowledgments
+## 🤝 Reconhecimentos
 
 * [@finotilucas - Correios Brasil v2.2.2](https://www.npmjs.com/package/correios-brasil)
 * [Logo part by catalyststuff](http://www.freepik.com)
