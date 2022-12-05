@@ -3,7 +3,7 @@ import { TrackCreateError } from "../errors/trackErrors.js";
 import { TrackInterface } from "../interfaces/TrackInterface.js";
 
 export abstract class TrackService {
-  static async adicionar(track: TrackInterface): Promise<TrackInterface> {
+  public static async adicionar(track: TrackInterface): Promise<TrackInterface> {
     try {
       const { code, user } = track;
       const res = await TrackDao.read({ code, user });

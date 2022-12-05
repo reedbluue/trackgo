@@ -30,3 +30,32 @@ export class UserCreateError extends Error {
     }
   }
 }
+
+export class UserSessionError extends Error {
+  public code: string | null;
+  constructor(err: string | any = 'Falha no armazenamento de sessões!') {
+    if(typeof err === typeof '') {
+      super(<string>err);
+      this.code = '1';
+    } else {
+      let message = err.message;
+      super(message);
+      this.code = null;
+    }
+  }
+}
+
+export class UserValidationError extends Error {
+  public code: string | null;
+  constructor(err: string | any = 'Falha ao validar o usuário!') {
+    if(typeof err === typeof '') {
+      super(<string>err);
+      this.code = '1';
+    } else {
+      let message = err.message;
+      super(message);
+      this.code = null;
+    }
+  }
+}
+
