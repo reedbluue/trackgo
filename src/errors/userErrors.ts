@@ -1,17 +1,17 @@
 export class UserCreateError extends Error {
   public code: string | null;
   constructor(err: string | any = 'Falha ao cadastrar o usuário!') {
-    if(typeof err === typeof '') {
+    if (typeof err === typeof '') {
       super(<string>err);
       this.code = '1';
     } else {
       let message = err.message;
-      if(err.name === 'ValidationError') {
-        for(let prop in err.errors) {
+      if (err.name === 'ValidationError') {
+        for (let prop in err.errors) {
           message = err.errors[prop].message;
         }
         super(message);
-          this.code = '2';
+        this.code = '2';
       } else if (err.name === 'MongoServerError') {
         switch (err.code) {
           case 11000:
@@ -21,7 +21,7 @@ export class UserCreateError extends Error {
           default:
             super(err.message);
             this.code = null;
-            break;  
+            break;
         }
       } else {
         super(message);
@@ -34,7 +34,7 @@ export class UserCreateError extends Error {
 export class UserSessionError extends Error {
   public code: string | null;
   constructor(err: string | any = 'Falha no armazenamento de sessões!') {
-    if(typeof err === typeof '') {
+    if (typeof err === typeof '') {
       super(<string>err);
       this.code = '1';
     } else {
@@ -48,7 +48,7 @@ export class UserSessionError extends Error {
 export class UserValidationError extends Error {
   public code: string | null;
   constructor(err: string | any = 'Falha ao validar o usuário!') {
-    if(typeof err === typeof '') {
+    if (typeof err === typeof '') {
       super(<string>err);
       this.code = '1';
     } else {
@@ -58,4 +58,3 @@ export class UserValidationError extends Error {
     }
   }
 }
-

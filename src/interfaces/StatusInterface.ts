@@ -1,4 +1,4 @@
 export interface StatusInterface {
-  description: String,
-  dateTime?: Date
+  description: String;
+  dateTime?: Date;
 }

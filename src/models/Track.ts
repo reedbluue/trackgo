@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import { TrackInterface } from "../interfaces/TrackInterface.js";
-import { User } from "./User.js";
+import mongoose from 'mongoose';
+import { TrackInterface } from '../interfaces/TrackInterface.js';
+import { User } from './User.js';
 
 const regex = /^[a-z]{2}\d{9}[a-z]{2}$/i;
 
@@ -8,21 +8,21 @@ const TrackSchema = new mongoose.Schema<TrackInterface>({
   user: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'users',
-    required: true
+    required: true,
   },
   code: {
     type: mongoose.SchemaTypes.String,
     validate: {
       validator: (track: String) => regex.test(<string>track),
-      message: 'Formatação errada do código de rastreio!'
+      message: 'Formatação errada do código de rastreio!',
     },
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
   },
-  status: [Object]
+  status: [Object],
 });
 
 User.on('ok', () => {}); // just to initialize
