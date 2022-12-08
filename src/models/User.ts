@@ -19,6 +19,8 @@ const UserSchema = new mongoose.Schema<UserInterface>({
     type: Boolean,
     default: true,
   },
+}, {
+  timestamps: true
 });
 
 export const User = mongoose.model<UserInterface>('users', UserSchema);
