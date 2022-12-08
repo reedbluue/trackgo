@@ -5,28 +5,22 @@ import { UserService } from '../services/UserService.js';
 import { UserSessionService } from '../services/UserSessionService.js';
 
 export const userValidation = async (ctx: Context, next: any) => {
-  const telegramId = ctx.from?.id.toString();
+  const user = ctx.from;
 
-  if (!telegramId)
-    throw new UserValidationError('Falha ao obter o Telegram ID!');
+  if (!user)
+    throw new UserValidationError('Falha ao obter dados do usuário!');
+
+  const telegramId = ctx.from.id.toString();
 
   const sessionOk = await UserSessionService.checkSession(telegramId);
 
   if (!sessionOk) {
-    const user = await isRegistered(telegramId);
+    const dbUser = await _isRegistered(telegramId);
 
-    if (!user) {
-      const userRegistered = await UserService.adicionar({
-        name: <string>ctx.from?.first_name,
-        telegramId: telegramId,
-        lastName: ctx.from?.last_name,
-      });
-
-      await ctx.reply(
-        `Parabéns, ${userRegistered.name}! Seu registro foi feito com sucesso!`
-      );
+    if (!dbUser) {
+      return;
     } else {
-      await UserSessionService.addSession(user);
+      await UserSessionService.addSession(dbUser);
       next();
     }
   } else {
@@ -34,7 +28,7 @@ export const userValidation = async (ctx: Context, next: any) => {
   }
 };
 
-const isRegistered = async (
+const _isRegistered = async (
   telegramId: string
 ): Promise<UserInterface | null> => {
   const user = await UserService.buscaPorTelegramId(telegramId);

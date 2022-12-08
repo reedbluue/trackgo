@@ -1,12 +1,12 @@
 import Keyv from '@keyvhq/core';
-import crypto from 'crypto';
+import { JWTHelper } from '../helpers/JWTHelper.js';
 
 const TokenStorage = new Keyv({namespace: 'tokens'});
 
 export abstract class TokenService {
   public static async generateKey(): Promise<string> {
-    const token = crypto.randomBytes(32).toString('hex'); // TODO: ALTERAR ESTRATÉGIA DE AUTENTICAÇÃO PARA JSON WEB TOKEN
-    await TokenStorage.set(token, false);
+    const token = JWTHelper.generate();
+    await TokenStorage.set(token, true);
     return token;
   }
 
