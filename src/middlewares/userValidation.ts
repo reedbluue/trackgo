@@ -1,11 +1,12 @@
-import { Context } from 'telegraf';
 import { UserValidationError } from '../errors/userErrors.js';
 import { UserInterface } from '../interfaces/UserInterface.js';
+import { BaseSceneInterface } from '../interfaces/WizardSceneInterface.js';
 import { UserService } from '../services/UserService.js';
 import { UserSessionService } from '../services/UserSessionService.js';
 
-export const userValidation = async (ctx: Context, next: any) => {
+export const userValidation = async (ctx: BaseSceneInterface, next: any) => {
   const user = ctx.from;
+  const scene  = ctx.scene.current?.id;
 
   if (!user)
     throw new UserValidationError('Falha ao obter dados do usuário!');
@@ -16,15 +17,20 @@ export const userValidation = async (ctx: Context, next: any) => {
 
   if (!sessionOk) {
     const dbUser = await _isRegistered(telegramId);
-
     if (!dbUser) {
-      return;
+      if(!scene || scene != 'guestScene')
+        await ctx.scene.enter('guestScene');
+      return next();
     } else {
       await UserSessionService.addSession(dbUser);
-      next();
+      if(!scene)
+        await ctx.scene.enter("userScene");
+      return next();
     }
   } else {
-    next();
+    if(!scene || scene != 'userScene')
+      await ctx.scene.enter("userScene");
+    return next();
   }
 };
 

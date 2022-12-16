@@ -36,7 +36,7 @@ Em construção...
 
 * [Igor Oliveira](https://github.com/reedbluue) - Just another person
 
-## 😄 Seja um dos contribuidores<br>
+## 😄 Seja um dos contribuidores
 
 Quer fazer parte desse projeto? Clique [AQUI](./CONTRIBUTING.md) e leia como contribuir.
 

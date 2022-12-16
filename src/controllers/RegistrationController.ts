@@ -1,19 +1,11 @@
-import { Context, NarrowedContext } from 'telegraf';
-import { Update, Message } from 'telegraf/typings/core/types/typegram';
+import { BaseSceneInterface } from '../interfaces/WizardSceneInterface.js';
 import { TokenService } from '../services/TokenService.js';
 import { UserService } from '../services/UserService.js';
 import { UserSessionService } from '../services/UserSessionService.js';
 
 export abstract class RegistrationController {
   public static signIn = async (
-    ctx: NarrowedContext<
-      Context<Update>,
-      {
-        message: Update.New & Update.NonChannel & Message.TextMessage;
-        update_id: number;
-      }
-    >
-  ) => {
+    ctx: BaseSceneInterface) => {
     const telegramId = ctx.from.id.toString();
 
     if (await UserSessionService.checkSession(telegramId) ||
@@ -31,9 +23,11 @@ export abstract class RegistrationController {
       telegramId: telegramId,
       lastName: ctx.from.last_name,
     });
-    
-    return await ctx.reply(
+
+    await UserSessionService.addSession(userRegistered);
+    await ctx.reply(
       `Parabéns, ${userRegistered.name}! Seu registro foi feito com sucesso!` // TODO: Melhorar mensagem de boas vindas
     );
+    return await ctx.scene.enter('userScene');
   };
 }
