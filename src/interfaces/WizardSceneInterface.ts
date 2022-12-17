@@ -1,8 +1,13 @@
-import { Context, NarrowedContext } from 'telegraf';
+import { Context, NarrowedContext, Scenes } from 'telegraf';
 import { Update, Message } from 'telegraf/typings/core/types/typegram';
-import { SceneContextScene } from 'telegraf/typings/scenes';
 
-export interface BaseSceneInterface
+interface WizardSessionData extends Scenes.WizardSessionData {
+  nome: string;
+  idade: string;
+  inativeUserCallBack: NodeJS.Timeout;
+}
+
+export interface WizardSceneInterface
   extends NarrowedContext<
     Context<Update>,
     {
@@ -10,5 +15,6 @@ export interface BaseSceneInterface
       update_id: number;
     }
   > {
-  scene: SceneContextScene<BaseSceneInterface>;
+  scene: Scenes.SceneContextScene<WizardSceneInterface, WizardSessionData>;
+  wizard: Scenes.WizardContextWizard<WizardSceneInterface>;
 }

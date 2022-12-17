@@ -1,9 +1,11 @@
 import { Scenes } from "telegraf";
-import { BaseSceneInterface } from "../interfaces/WizardSceneInterface.js";
+import { WizardSceneInterface } from "../interfaces/WizardSceneInterface.js";
+import { cadastroScene } from "./cadastroScene.js";
 import { guestScene } from "./guestScene.js";
 import { userScene } from "./userScene.js";
 
-export const baseStage = new Scenes.Stage<BaseSceneInterface>([
+export const wizardStage = new Scenes.Stage<WizardSceneInterface>([
   guestScene,
-  userScene
+  userScene,
+  cadastroScene
 ], { ttl: 10 });

@@ -1,11 +1,11 @@
-import { BaseSceneInterface } from '../interfaces/WizardSceneInterface.js';
+import { WizardSceneInterface } from '../interfaces/WizardSceneInterface.js';
 import { TokenService } from '../services/TokenService.js';
 import { UserService } from '../services/UserService.js';
 import { UserSessionService } from '../services/UserSessionService.js';
 
 export abstract class RegistrationController {
   public static signIn = async (
-    ctx: BaseSceneInterface) => {
+    ctx: WizardSceneInterface) => {
     const telegramId = ctx.from.id.toString();
 
     if (await UserSessionService.checkSession(telegramId) ||

@@ -1,10 +1,10 @@
 import { UserValidationError } from '../errors/userErrors.js';
 import { UserInterface } from '../interfaces/UserInterface.js';
-import { BaseSceneInterface } from '../interfaces/WizardSceneInterface.js';
+import { WizardSceneInterface } from '../interfaces/WizardSceneInterface.js';
 import { UserService } from '../services/UserService.js';
 import { UserSessionService } from '../services/UserSessionService.js';
 
-export const userValidation = async (ctx: BaseSceneInterface, next: any) => {
+export const userValidation = async (ctx: WizardSceneInterface, next: any) => {
   const user = ctx.from;
   const scene  = ctx.scene.current?.id;
 

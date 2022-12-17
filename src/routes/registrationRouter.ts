@@ -1,8 +1,8 @@
 import { Composer } from "telegraf";
 import { RegistrationController } from "../controllers/RegistrationController.js";
-import { BaseSceneInterface } from "../interfaces/WizardSceneInterface.js";
+import { WizardSceneInterface } from "../interfaces/WizardSceneInterface.js";
 
-const registrationRouter = new Composer<BaseSceneInterface>();
+const registrationRouter = new Composer<WizardSceneInterface>();
 
 registrationRouter.command('join', RegistrationController.signIn);
 
