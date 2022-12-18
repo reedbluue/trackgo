@@ -4,7 +4,8 @@ import { UserInterface } from './UserInterface.js';
 
 export interface TrackInterface {
   user: mongoose.ObjectId | undefined | UserInterface;
-  code: String;
-  description: String;
+  code: string;
+  type: string;
+  description: string;
   status: Array<Status>;
 }

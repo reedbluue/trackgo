@@ -1,5 +1,11 @@
-import { StatusInterface } from '../interfaces/StatusInterface.js';
+import { StatusInterface, UnityInterface } from '../interfaces/StatusInterface.js';
 
 export class Status implements StatusInterface {
-  constructor(public description: String, public dateTime: Date = new Date()) {}
+  constructor(
+    public code: string,
+    public description: string,
+    public dateTime: Date,
+    public unity: UnityInterface,
+    public destiny?: UnityInterface
+  ) {}
 }

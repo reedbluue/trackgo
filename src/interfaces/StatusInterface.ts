@@ -1,4 +1,12 @@
 export interface StatusInterface {
-  description: String;
+  code: string;
+  description: string;
   dateTime?: Date;
+  unity: UnityInterface;
+}
+
+export interface UnityInterface {
+  city: string;
+  state: string;
+  type: string;
 }
