@@ -1,4 +1,4 @@
-import { Format, Scenes } from "telegraf";
+import { Markup, Scenes } from "telegraf";
 import { WizardSceneInterface } from "../interfaces/WizardSceneInterface.js";
 import registrationRouter from "../routes/registrationRouter.js";
 
@@ -14,8 +14,10 @@ guestScene.enter(async (ctx, next) => {
 });
 
 guestScene.start(async (ctx, next) => {
-  await ctx.reply(
-    `Você está no modo visitante.\nPara utilizar o TrackBot, você precisa estar registrado. Caso tenha um convite, insira o token utilizando o comando:` // TODO: Melhorar resposta e formatação
-  );
-  await ctx.reply(Format.code('/join "token"'));
+  await ctx.replyWithHTML(
+    `<b>Você está no modo visitante 🕵</b>
+
+Para utilizar o TrackBot, você precisa estar registrado. Caso tenha um convite, insira o token utilizando o comando:
+
+<code>/entrar "SEU_TOKEN_AQUI"</code>`);
 });

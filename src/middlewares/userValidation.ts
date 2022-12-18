@@ -1,3 +1,4 @@
+import { Schema } from 'mongoose';
 import { UserValidationError } from '../errors/userErrors.js';
 import { UserInterface } from '../interfaces/UserInterface.js';
 import { WizardSceneInterface } from '../interfaces/WizardSceneInterface.js';
@@ -23,11 +24,13 @@ export const userValidation = async (ctx: WizardSceneInterface, next: any) => {
       return next();
     } else {
       await UserSessionService.addSession(dbUser);
+      ctx.userID = <Schema.Types.ObjectId>dbUser._id;
       if(!scene)
         await ctx.scene.enter("userScene");
       return next();
     }
   } else {
+    ctx.userID = sessionOk._id;
     if(!scene || scene != 'userScene')
       await ctx.scene.enter("userScene");
     return next();

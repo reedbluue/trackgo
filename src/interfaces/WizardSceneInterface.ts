@@ -1,9 +1,11 @@
+import { Schema } from 'mongoose';
 import { Context, NarrowedContext, Scenes } from 'telegraf';
 import { Update, Message } from 'telegraf/typings/core/types/typegram';
 
 interface WizardSessionData extends Scenes.WizardSessionData {
-  nome: string;
-  idade: string;
+  code: string;
+  description: string;
+  userID: Schema.Types.ObjectId;
   inativeUserCallBack: NodeJS.Timeout;
 }
 
@@ -17,4 +19,5 @@ export interface WizardSceneInterface
   > {
   scene: Scenes.SceneContextScene<WizardSceneInterface, WizardSessionData>;
   wizard: Scenes.WizardContextWizard<WizardSceneInterface>;
+  userID: Schema.Types.ObjectId;
 }

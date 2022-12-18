@@ -4,6 +4,6 @@ import { WizardSceneInterface } from "../interfaces/WizardSceneInterface.js";
 
 const registrationRouter = new Composer<WizardSceneInterface>();
 
-registrationRouter.command('join', RegistrationController.signIn);
+registrationRouter.command('entrar', RegistrationController.signIn);
 
 export default registrationRouter;
