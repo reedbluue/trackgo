@@ -3,14 +3,18 @@ import { Status } from "../models/Status.js";
 
 interface rawTracks {
   code: string;
-  type: string;
-  status: [Status];
+  type?: string;
+  status?: [Status];
 }
 
 export abstract class TrackerHelper {
   public static async returnFrom(codes: Array<string>): Promise<Array<rawTracks>> {
     const res:Array<any> = await rastrearEncomendas(codes);
     return res.map((track): rawTracks => {
+      if(!track.eventos)
+      return {
+        code: track.codObjeto
+      };
       return {
         code: track.codObjeto,
         type: track.tipoPostal.categoria,

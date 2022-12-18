@@ -27,7 +27,7 @@ Por favor, me informe os 13 dígitos no padrão (XX123456789XX):`,
 <i>Digite os 13 dígitos no padrão "XX123456789XX"</i>`);
     } else {
 
-      if(!(await TrackService.isDuplicate(ctx.scene.session.code, ctx.scene.session.userID))) {
+      if(await TrackService.isDuplicate(ctx.scene.session.code, ctx.scene.session.userID)) {
         await ctx.replyWithHTML(`&#x26A0;  <b>Código da Track já registrada para seu usuário!</b>  &#x26A0;
 <i>Por favor, digite um código diferente.</i>`);
       } else {
