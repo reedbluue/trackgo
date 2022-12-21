@@ -23,10 +23,13 @@ export abstract class TrackDao {
     return await Track.find(keys);
   }
 
-  public static async delete(keys: Object): Promise<void> {
+  public static async delete(keys: Object): Promise<boolean> {
     const tracks = await Track.find(keys);
+    if(!tracks.length)
+      return false;
     tracks.forEach(async (track) => {
-      return await track.delete();
+      await track.delete();
     });
+      return true;
   }
 }

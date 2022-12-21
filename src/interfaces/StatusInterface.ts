@@ -3,6 +3,7 @@ export interface StatusInterface {
   description: string;
   dateTime?: Date;
   unity: UnityInterface;
+  destiny?: UnityInterface;
 }
 
 export interface UnityInterface {

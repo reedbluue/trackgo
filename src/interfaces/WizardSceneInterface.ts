@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose';
 import { Context, NarrowedContext, Scenes } from 'telegraf';
 import { Update, Message } from 'telegraf/typings/core/types/typegram';
+import { TrackInterface } from './TrackInterface.js';
 
 interface WizardSessionData extends Scenes.WizardSessionData {
   code: string;

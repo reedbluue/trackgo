@@ -20,16 +20,26 @@ export abstract class TrackService {
     }
   }
 
-  public static async deletar(trackId: Schema.Types.ObjectId): Promise<boolean> {
+  public static async deletar(trackId: Schema.Types.ObjectId | string): Promise<boolean> {
     try {
-      await TrackDao.delete({ _id: trackId });
+      const del = await TrackDao.delete({ _id: trackId });
+      if(!del)
+        return false;
       return true;
     } catch(err) {
       throw new TrackDeleteError(err);
     }
   }
 
-  public static async listarTodos(userId: Schema.Types.ObjectId): Promise<Array<TrackInterface>> {
+  public static async listar(trackId: Schema.Types.ObjectId | string): Promise<Array<TrackInterface>> {
+    try {
+      return await TrackDao.read({ _id: trackId });
+    } catch(err) {
+      throw new TrackReadError(err);
+    }
+  }
+
+  public static async listarTodos(userId: Schema.Types.ObjectId | string): Promise<Array<TrackInterface>> {
     try {
       return await TrackDao.read({ user: userId });
     } catch(err) {
