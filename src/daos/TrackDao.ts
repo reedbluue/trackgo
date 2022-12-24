@@ -14,11 +14,11 @@ export abstract class TrackDao {
 
   public static async update(
     keys: Object,
-    model: TrackInterface
+    model: Object
   ): Promise<Array<TrackInterface>> {
     const tracks = await Track.find(keys);
     tracks.map(async (track) => {
-      return await track.update(model);
+      return await track.updateOne(model);
     });
     return await Track.find(keys);
   }

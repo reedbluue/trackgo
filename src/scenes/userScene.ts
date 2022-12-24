@@ -27,6 +27,7 @@ userScene.command('ajuda', async (ctx, next) => {
   await ctx.replyWithHTML(
     `<b>Comandos disponíveis:</b>
 <code>/adicionar</code> - Adicione novos Tracks 📝
+<code>/listar</code> - Lista todos os seus Tracks 🗃️
     `
   );
 });
@@ -58,7 +59,7 @@ Adicione um novo com o comando: <code>/adicionar</code>`
               track.status?.length
                 ? _statusIndicator(track.status[track.status.length - 1])
                 : `❌`
-            } ⠀ > ⠀ ${track.description}`,
+            } ⠀ > ⠀ ${track.description.toUpperCase()}`,
             `desc-${track.id}`
           )
         ),
@@ -77,6 +78,7 @@ userScene.action(/^desc-(.*)$/, async (ctx) => {
   if (track.status?.length) {
     await ctx.replyWithHTML(
       `➡️ <b>${track.description.toUpperCase()}</b>
+${track.code.toUpperCase()}
 ${`${track.type}`}
 
 ${_statusIndicator(track.status[track.status.length - 1])} Status atual:\n${
@@ -84,6 +86,7 @@ ${_statusIndicator(track.status[track.status.length - 1])} Status atual:\n${
       }`,
       Markup.inlineKeyboard([
         Markup.button.callback('📃 Rastreio Completo', `fullDesc-${trackId}`),
+        Markup.button.callback('📝 Editar', `edit-${trackId}`),
         Markup.button.callback('🗑️ Deletar', `del-${trackId}`),
       ])
     );
@@ -91,9 +94,11 @@ ${_statusIndicator(track.status[track.status.length - 1])} Status atual:\n${
     await ctx.replyWithHTML(
       `<b>${track.description.toUpperCase()}</b>
 
-❌ Status atual:
-Rastreio não existente!`,
+❌ Rastreio não existente!
+
+${track.code.toUpperCase()}`,
       Markup.inlineKeyboard([
+        Markup.button.callback('📝 Editar', `edit-${trackId}`),
         Markup.button.callback('🗑️ Deletar', `del-${trackId}`),
       ])
     );
@@ -167,4 +172,26 @@ userScene.action(/^del-(.*)$/, async (ctx) => {
 Tente novamente em alguns minutos.`);
 
   return await ctx.replyWithHTML(`🚮 <b>Track deletada!</b>`);
+});
+
+userScene.action(/^edit-(.*)$/, async (ctx) => {
+  const trackId = ctx.match[1];
+  await ctx.replyWithHTML(`O que você gostaria de editar?`,
+  Markup.inlineKeyboard([
+    Markup.button.callback('Descrição', `editDesc-${trackId}`),
+    Markup.button.callback('Código', `editCode-${trackId}`)
+  ])
+  );
+});
+
+userScene.action(/^editDesc-(.*)$/, async (ctx) => {
+  const trackId = ctx.match[1];
+  ctx.trackID = trackId;
+  ctx.scene.enter('trackUpdateDescScene');
+});
+
+userScene.action(/^editCode-(.*)$/, async (ctx) => {
+  const trackId = ctx.match[1];
+  ctx.trackID = trackId;
+  ctx.scene.enter('trackUpdateCodeScene');
 });

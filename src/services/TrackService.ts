@@ -1,6 +1,7 @@
 import { Schema } from 'mongoose';
 import { TrackDao } from '../daos/TrackDao.js';
 import { TrackCreateError, TrackDeleteError, TrackReadError } from '../errors/trackErrors.js';
+import { StatusInterface } from '../interfaces/StatusInterface.js';
 import { TrackInterface } from '../interfaces/TrackInterface.js';
 
 export abstract class TrackService {
@@ -47,6 +48,17 @@ export abstract class TrackService {
     }
   }
 
+  public static async atualizarTrack(trackId: Schema.Types.ObjectId | string, keys: Object): Promise<Array<TrackInterface> | undefined | null > {
+    try {
+      const updateReturn = await TrackDao.update({ _id: trackId }, keys);
+      if(!updateReturn || updateReturn.length)
+        return null;
+      return updateReturn;
+    } catch(err) {
+      throw new TrackReadError(err);
+    }
+  }
+  
   public static async isDuplicate(
     code: string, user: Schema.Types.ObjectId
   ): Promise<boolean> {

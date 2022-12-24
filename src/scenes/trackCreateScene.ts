@@ -9,7 +9,7 @@ export const trackCreateScene = new Scenes.WizardScene<WizardSceneInterface>("tr
     ctx.scene.session.userID = ctx.userID;
     await ctx.replyWithHTML(`Tudo bem, ${ctx.from.first_name}!  &#x1F44B  Vamos criar uma nova Track!
 
-Para sair do assistente, basta digitar "/sair" ^^
+Para sair do assistente, basta digitar <code>/sair</code> ou utilizar os botões de navegação do Telegram ^^
 
 Para começar, precisamos do código do objeto!
 Por favor, me informe os 13 dígitos no padrão (XX123456789XX):`, 
@@ -24,15 +24,19 @@ Por favor, me informe os 13 dígitos no padrão (XX123456789XX):`,
 
     if(!CodeValidator.check(ctx.scene.session.code)) {
       await ctx.replyWithHTML(`&#x26A0;  <b>Formato do código inválido!</b>  &#x26A0;
-<i>Digite os 13 dígitos no padrão "XX123456789XX"</i>`);
+<i>Digite os 13 dígitos no padrão "XX123456789XX"</i>
+
+Com dificuldade? Digite <code>/ajuda</code>!`);
     } else {
 
       if(await TrackService.isDuplicate(ctx.scene.session.code, ctx.scene.session.userID)) {
         await ctx.replyWithHTML(`&#x26A0;  <b>Código da Track já registrada para seu usuário!</b>  &#x26A0;
 <i>Por favor, digite um código diferente.</i>`);
       } else {
-        await ctx.replyWithHTML(`Isso aí!  &#x1F601  Você está indo super bem!
+        await ctx.replyWithHTML(`Isso aí!  &#x1F601  Você está indo super bem! 😉
+
 Agora vamos precisar de uma descrição!
+
 Digite a descrição da encomenda:`);
         ctx.wizard.next();
       }
@@ -43,10 +47,14 @@ Digite a descrição da encomenda:`);
 
     if(ctx.scene.session.description.length < 3) {
       await ctx.replyWithHTML(`&#x26A0;  <b>Descrição muito curta</b>  &#x26A0;
-<i>A descrição precisa ser maior do que 3 caracteres!</i>`);
+<i>A descrição precisa ser maior do que 3 caracteres!</i>
+
+Com dificuldade? Digite <code>/ajuda</code>!`);
     } else if (ctx.scene.session.description.length > 20) {
       await ctx.replyWithHTML(`&#x26A0;  <b>Descrição muito longa</b>  &#x26A0;
-<i>A descrição somente pode ter até 20 caracteres!</i>`);
+<i>A descrição somente pode ter até 20 caracteres!</i>
+
+Com dificuldade? Digite <code>/ajuda</code>!`);
     } else {
 
       try {
@@ -63,7 +71,7 @@ Digite a descrição da encomenda:`);
         console.log(err);
       }
 
-      await ctx.replyWithHTML(`&#x2705  Track criada com sucesso!  &#x2705`);
+      await ctx.replyWithHTML(`&#x2705  Track criada com sucesso!  &#x2705`, Markup.removeKeyboard());
 
       await ctx.scene.leave();
     }
