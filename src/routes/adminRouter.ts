@@ -16,18 +16,18 @@ adminRouter.command('admin', adminValidation, (ctx) => {
 });
 
 adminRouter.action('inviteToken', async (ctx) => {
+  await ctx.answerCbQuery('Convite gerado com sucesso ✅', {});
   await AdminController.geraToken(ctx);
-  await ctx.answerCbQuery(`Convite gerado com sucesso ✅`);
 });
 
 adminRouter.action('resetTokens', async (ctx) => {
+  await ctx.answerCbQuery('Convites deletados com suceeso ✅', {});
   await AdminController.resetaTokens(ctx);
-  await ctx.answerCbQuery(`Convites deletados com suceeso ✅`);
 });
 
 adminRouter.action('resetSessions', async (ctx) => {
+  await ctx.answerCbQuery('Sessões resetadas com sucesso ✅', {});
   await AdminController.resetaSessions(ctx);
-  await ctx.answerCbQuery(`Sessões resetadas com sucesso ✅`);
 });
 
 export default adminRouter;

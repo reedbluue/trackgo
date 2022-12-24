@@ -7,7 +7,7 @@ import { updateAndNotify } from '../intervals/updateAndNotify.js';
 
 dotenv.config();
 
-const { BOT_API_TOKEN } = process.env;
+const { BOT_API_TOKEN, TRACK_UPDATE_DELAY } = process.env;
 
 if (!BOT_API_TOKEN) throw new BotConnectionError('Bot Token inválido!');
 
@@ -17,10 +17,10 @@ routes(bot);
 
 setTimeout(async () => {
   await updateAndNotify();
- }, 10000); // 10 segundos
+ }, 10000);
 
 setInterval(async () => {
  await updateAndNotify();
-}, 300000); // 5 minutos
+}, Number(TRACK_UPDATE_DELAY) * 1000);
 
 export default bot;

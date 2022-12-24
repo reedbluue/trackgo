@@ -8,12 +8,12 @@ import { DateTime } from 'luxon';
 
 export const userScene = new Scenes.WizardScene<WizardSceneInterface>(
   'userScene',
-  async (ctx) => {}
+  async (ctx) => {ctx.botInfo;}
 );
 
 userScene.enter(async (ctx, next) => {
-  await ctx.reply('Entrou Usuário');
   ctx.scene.session.userID = ctx.userID;
+  await ctx.telegram.setMyCommands([{command: '/listar', description: 'Retornar todos os seus Tracks.'}, {command: '/adicionar', description: 'Adicione um novo Track.'}, {command: '/ajuda', description: 'Conheça mais sobre o TrackGo!'}, {command: '/sobre', description: 'Conheça mais sobre o TrackGo!'}]);
   next();
 });
 
@@ -23,7 +23,7 @@ userScene.start(async (ctx) => {
 Descubra os recursos disponíveis com: <code>/ajuda</code>`);
 });
 
-userScene.command('ajuda', async (ctx, next) => {
+userScene.command('ajuda', async (ctx, _) => {
   await ctx.replyWithHTML(
     `<b>Comandos disponíveis:</b>
 <code>/adicionar</code> - Adicione novos Tracks 📝
@@ -32,7 +32,7 @@ userScene.command('ajuda', async (ctx, next) => {
   );
 });
 
-userScene.command('adicionar', async (ctx, next) => {
+userScene.command('adicionar', async (ctx, _) => {
   ctx.userID = ctx.scene.session.userID;
   await ctx.scene.enter('trackCreateScene');
 });
@@ -69,13 +69,26 @@ Adicione um novo com o comando: <code>/adicionar</code>`
   }
 });
 
+userScene.command('sobre', async (ctx, _) => {
+  await ctx.replyWithHTML(
+`<b>Sobre o TrackGo 📦</b>
+
+TrackGo é um projeto simples, em desenvolvimento, feito para solucionar uma demanda pessoal para rastreio de encomendas do Correios Brasil.
+Em suas versões mais novas, é capaz de atender a uma demanda maior de usuários e com funcionalidades focadas na experiência dos mesmos!
+
+Conheça mais sobre o TrackGo Bot em <a href="https://github.com/reedbluue/trackgo">nosso repositório no GitHub</a> 😊
+
+Projeto por <a href="https://github.com/reedbluue">@Igor Oliveira</a> 🙋🏾‍♂️`, {disable_web_page_preview: true});
+});
+
 userScene.action(/^desc-(.*)$/, async (ctx) => {
   const trackId = ctx.match[1];
   const track = (await TrackService.listar(trackId))[0];
 
-  if (!track) 
-    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
+  if (!track)
+    return await ctx.answerCbQuery('O Track não existe mais! ❌', {});
 
+  await ctx.answerCbQuery('', {});
   if (track.status?.length) {
     return await ctx.replyWithHTML(
       `➡️ <b>${track.description.toUpperCase()}</b>
@@ -111,8 +124,9 @@ userScene.action(/^fullDesc-(.*)$/, async (ctx) => {
   const track = (await TrackService.listar(trackId))[0];
 
   if (!track) 
-    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
+    return await ctx.answerCbQuery('O Track não existe mais! ❌', {});
 
+  await ctx.answerCbQuery('', {});
   const allStatus = track.status;
   if (!allStatus || !allStatus.length) return;
   return await ctx.replyWithHTML(`📃 <b>Histórico de rastreio:</b>
@@ -169,10 +183,8 @@ userScene.action(/^del-(.*)$/, async (ctx) => {
   const isOk = await TrackService.deletar(trackId);
 
   if (!isOk)
-    return await ctx.replyWithHTML(`❌ <b>Falha ao deletar ou Track não existe!</b>
-Tente novamente em alguns minutos.`);
-
-  return await ctx.replyWithHTML(`🚮 <b>Track deletada!</b>`);
+    return await ctx.answerCbQuery('O Track não existe mais! ❌', {});
+  return await ctx.answerCbQuery('Track deletada ✅', {});
 });
 
 userScene.action(/^edit-(.*)$/, async (ctx) => {
@@ -181,8 +193,9 @@ userScene.action(/^edit-(.*)$/, async (ctx) => {
   const track = (await TrackService.listar(trackId))[0];
 
   if (!track) 
-    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
-  
+    return await ctx.answerCbQuery('O Track não existe mais! ❌', {});
+
+  await ctx.answerCbQuery('', {});
   return await ctx.replyWithHTML(`O que você gostaria de editar?`,
   Markup.inlineKeyboard([
     Markup.button.callback('Descrição', `editDesc-${trackId}`),
@@ -197,8 +210,9 @@ userScene.action(/^editDesc-(.*)$/, async (ctx) => {
   const track = (await TrackService.listar(trackId))[0];
 
   if (!track) 
-    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
+    return await ctx.answerCbQuery('O Track não existe mais! ❌', {});
 
+  await ctx.answerCbQuery('', {});
   ctx.trackID = trackId;
   return ctx.scene.enter('trackUpdateDescScene');
 });
@@ -209,8 +223,9 @@ userScene.action(/^editCode-(.*)$/, async (ctx) => {
   const track = (await TrackService.listar(trackId))[0];
 
   if (!track) 
-    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
-
+    return await ctx.answerCbQuery('O Track não existe mais! ❌', {});
+    
+  await ctx.answerCbQuery('', {});
   ctx.trackID = trackId;
   return ctx.scene.enter('trackUpdateCodeScene');
 });

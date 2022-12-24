@@ -23,7 +23,7 @@ export abstract class TrackDao {
       await track.updateOne(model);
     }
 
-    const updatedTracks = await Track.find(keys, {}, {populate: 'user'});
+    const updatedTracks = !populate ? await Track.find(keys) : await Track.find(keys, {}, {populate: 'user'});;
 
     return updatedTracks;
   }

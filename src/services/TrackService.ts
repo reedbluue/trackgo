@@ -80,7 +80,7 @@ export abstract class TrackService {
         const isNotSameLength = (track.status?.length == rawTracks[i].status?.length);
           
         if(same && !statusNotExists && !isNotSameLength) {
-          const updatedTrack = await TrackDao.update({ _id: track.id }, rawTracks[i]);
+          const updatedTrack = await TrackDao.update({ _id: track.id }, rawTracks[i], true);
           updatedTracks = [...updatedTracks, updatedTrack];
         }
 

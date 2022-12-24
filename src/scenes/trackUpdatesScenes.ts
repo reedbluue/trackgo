@@ -46,7 +46,7 @@ Tente novamente mais tarde.`);
   );
 
 trackUpdateDescScene.use(async (ctx, next) => {
-  ctx.scene.session.expires = Math.floor(Date.now() / 1000) + 25;
+  ctx.scene.session.expires = Math.floor(Date.now() / 1000) + 35;
   clearTimeout(ctx.scene.session.inativeUserCallBack);
   ctx.scene.session.inativeUserCallBack = setTimeout(async function () {
     await ctx.reply(
@@ -54,7 +54,7 @@ trackUpdateDescScene.use(async (ctx, next) => {
       Markup.removeKeyboard()
     );
     await ctx.scene.leave();
-  }, 20000);
+  }, 30000);
   next();
 });
 
@@ -126,7 +126,7 @@ Com dificuldade? Digite <code>/ajuda</code>!`);
   );
 
 trackUpdateCodeScene.use(async (ctx, next) => {
-  ctx.scene.session.expires = Math.floor(Date.now() / 1000) + 25;
+  ctx.scene.session.expires = Math.floor(Date.now() / 1000) + 35;
   clearTimeout(ctx.scene.session.inativeUserCallBack);
   ctx.scene.session.inativeUserCallBack = setTimeout(async function () {
     await ctx.reply(
@@ -134,7 +134,7 @@ trackUpdateCodeScene.use(async (ctx, next) => {
       Markup.removeKeyboard()
     );
     await ctx.scene.leave();
-  }, 20000);
+  }, 30000);
   next();
 });
 

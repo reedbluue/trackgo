@@ -13,13 +13,11 @@ export abstract class AdminController {
     >
   ) => {
     const token = await TokenService.generateKey();
-    return await ctx.replyWithHTML(`<b>Convite gerado:</b>
-
-<code>${token}</code>`);
+    return await ctx.replyWithHTML(`<code>${token}</code>`);
   };
 
   public static resetaTokens = async (
-    ctx: NarrowedContext<
+    _ctx: NarrowedContext<
       Context<Update> & {
         match: RegExpExecArray;
       },
@@ -27,11 +25,10 @@ export abstract class AdminController {
     >
   ) => {
     await TokenService.resetAllSessions();
-    return await ctx.replyWithHTML('<b>Convites deletados!</b>');
   };
 
   public static resetaSessions = async (
-    ctx: NarrowedContext<
+    _ctx: NarrowedContext<
       Context<Update> & {
         match: RegExpExecArray;
       },
@@ -39,6 +36,5 @@ export abstract class AdminController {
     >
   ) => {
     await UserSessionService.resetAllSessions();
-    return await ctx.replyWithHTML('<b>Sessões resetadas!</b>');
   };
 }
