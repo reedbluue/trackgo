@@ -8,7 +8,7 @@ const { PRIVATE_KEY } = process.env;
 export abstract class JWTHelper {
   public static generate(): string {
     return jsonwebtoken.sign({}, <Secret>PRIVATE_KEY, {
-      expiresIn: '24h'
+      expiresIn: '24h',
     });
   }
 

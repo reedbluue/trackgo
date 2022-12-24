@@ -17,8 +17,8 @@ export abstract class UserService {
   ): Promise<UserInterface | undefined | null> {
     try {
       const user = (await UserDao.read({ telegramId }))[0];
-      if(!user) {
-        if(await UserSessionService.checkSession(telegramId)) {
+      if (!user) {
+        if (await UserSessionService.checkSession(telegramId)) {
           await UserSessionService.removeSession(telegramId);
           return null;
         } else {

@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { Status } from '../models/Status.js';
 import { StatusInterface } from './StatusInterface.js';
 import { UserInterface } from './UserInterface.js';
 

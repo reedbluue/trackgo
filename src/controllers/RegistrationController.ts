@@ -23,7 +23,7 @@ Verifique o token e tente novamente.`);
       name: ctx.from.first_name,
       telegramId: telegramId,
       lastName: ctx.from.last_name,
-      chatId: ctx.chat.id
+      chatId: ctx.chat.id,
     });
 
     await UserSessionService.addSession(userRegistered);

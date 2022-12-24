@@ -1,4 +1,7 @@
-import { StatusInterface, UnityInterface } from '../interfaces/StatusInterface.js';
+import {
+  StatusInterface,
+  UnityInterface,
+} from '../interfaces/StatusInterface.js';
 
 export class Status implements StatusInterface {
   constructor(

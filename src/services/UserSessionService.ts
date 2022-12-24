@@ -7,7 +7,7 @@ dotenv.config();
 
 const { SESSIONS_TLL } = process.env;
 
-const userSessionStorage = new Keyv({namespace: 'users'});
+const userSessionStorage = new Keyv({ namespace: 'users' });
 
 export abstract class UserSessionService {
   public static async checkSession(telegramId: string) {
@@ -17,7 +17,11 @@ export abstract class UserSessionService {
 
   public static async addSession(user: UserInterface) {
     if (!user) throw new UserSessionError('Usuário indefinido!');
-    return await userSessionStorage.set(<string>user.telegramId, user, Number(SESSIONS_TLL));
+    return await userSessionStorage.set(
+      <string>user.telegramId,
+      user,
+      Number(SESSIONS_TLL)
+    );
   }
 
   public static async removeSession(telegramId: string) {

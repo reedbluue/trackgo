@@ -17,10 +17,10 @@ routes(bot);
 
 setTimeout(async () => {
   await updateAndNotify();
- }, 10000);
+}, 10000);
 
 setInterval(async () => {
- await updateAndNotify();
+  await updateAndNotify();
 }, Number(TRACK_UPDATE_DELAY) * 1000);
 
 export default bot;

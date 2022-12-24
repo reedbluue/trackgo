@@ -13,7 +13,7 @@ const TrackSchema = new mongoose.Schema<TrackInterface>({
     required: true,
   },
   type: {
-    type: String
+    type: String,
   },
   description: {
     type: String,

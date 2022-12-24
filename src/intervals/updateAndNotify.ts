@@ -6,8 +6,8 @@ import { DateTime } from 'luxon';
 
 export const updateAndNotify = async (): Promise<void> => {
   const tracks = await TrackService.atualizarTodasAsTracks();
-  
-  for(const track of tracks) {
+
+  for (const track of tracks) {
     if (track && track.length && track[0].status) {
       const status = track[0].status[track[0].status?.length - 1];
       if (track[0].user && !(track[0].user instanceof Schema.Types.ObjectId))

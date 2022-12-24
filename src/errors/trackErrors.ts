@@ -28,8 +28,8 @@ export class TrackDeleteError extends Error {
       this.code = '1';
     } else {
       let message = err.message;
-        super(message);
-        this.code = null;
+      super(message);
+      this.code = null;
     }
   }
 }
@@ -42,9 +42,8 @@ export class TrackReadError extends Error {
       this.code = '1';
     } else {
       let message = err.message;
-        super(message);
-        this.code = null;
+      super(message);
+      this.code = null;
     }
   }
 }
-

@@ -1,7 +1,7 @@
 import Keyv from '@keyvhq/core';
 import { JWTHelper } from '../helpers/JWTHelper.js';
 
-const TokenStorage = new Keyv({namespace: 'tokens'});
+const TokenStorage = new Keyv({ namespace: 'tokens' });
 
 export abstract class TokenService {
   public static async generateKey(): Promise<string> {
@@ -12,8 +12,7 @@ export abstract class TokenService {
 
   public static async validateKey(token: string): Promise<boolean> {
     const isValid = await TokenStorage.has(token);
-    if(!isValid)
-      return false;
+    if (!isValid) return false;
     await TokenStorage.delete(token);
     return true;
   }

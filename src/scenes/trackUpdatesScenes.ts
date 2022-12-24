@@ -64,9 +64,11 @@ trackUpdateDescScene.command('ajuda', async (ctx) => {
   );
 });
 
-trackUpdateDescScene.command('sair', async ctx => {
-  await ctx.reply('Tudo bem! Saindo do assistente de edição.',
-  Markup.removeKeyboard());
+trackUpdateDescScene.command('sair', async (ctx) => {
+  await ctx.reply(
+    'Tudo bem! Saindo do assistente de edição.',
+    Markup.removeKeyboard()
+  );
   await ctx.scene.leave();
 });
 
@@ -143,12 +145,13 @@ trackUpdateCodeScene.command('ajuda', async (ctx) => {
 O parão é composto por duas letras, seguidas por nove números e, por fim, mais duas letras.`);
 });
 
-trackUpdateCodeScene.command('sair', async ctx => {
-  await ctx.reply('Tudo bem! Saindo do assistente de edição.',
-  Markup.removeKeyboard());
+trackUpdateCodeScene.command('sair', async (ctx) => {
+  await ctx.reply(
+    'Tudo bem! Saindo do assistente de edição.',
+    Markup.removeKeyboard()
+  );
   await ctx.scene.leave();
 });
-
 
 trackUpdateCodeScene.leave(async (ctx) => {
   clearTimeout(ctx.scene.session.inativeUserCallBack);

@@ -7,10 +7,9 @@ import { UserSessionService } from '../services/UserSessionService.js';
 
 export const userValidation = async (ctx: WizardSceneInterface, next: any) => {
   const user = ctx.from;
-  const scene  = ctx.scene.current?.id;
+  const scene = ctx.scene.current?.id;
 
-  if (!user)
-    throw new UserValidationError('Falha ao obter dados do usuário!');
+  if (!user) throw new UserValidationError('Falha ao obter dados do usuário!');
 
   const telegramId = ctx.from.id.toString();
 
@@ -19,20 +18,17 @@ export const userValidation = async (ctx: WizardSceneInterface, next: any) => {
   if (!sessionOk) {
     const dbUser = await _isRegistered(telegramId);
     if (!dbUser) {
-      if(!scene || scene != 'guestScene')
-        await ctx.scene.enter('guestScene');
+      if (!scene || scene != 'guestScene') await ctx.scene.enter('guestScene');
       return next();
     } else {
       await UserSessionService.addSession(dbUser);
       ctx.userID = <Schema.Types.ObjectId>dbUser._id;
-      if(!scene)
-        await ctx.scene.enter("userScene");
+      if (!scene) await ctx.scene.enter('userScene');
       return next();
     }
   } else {
     ctx.userID = sessionOk._id;
-    if(!scene || scene != 'userScene')
-      await ctx.scene.enter("userScene");
+    if (!scene || scene != 'userScene') await ctx.scene.enter('userScene');
     return next();
   }
 };
