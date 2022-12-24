@@ -7,20 +7,25 @@ export abstract class TrackDao {
     return track;
   }
 
-  public static async read(keys: Object): Promise<Array<TrackInterface>> {
-    const tracks = await Track.find(keys);
+  public static async read(keys: Object, populate?: boolean): Promise<Array<TrackInterface>> {
+    const tracks = !populate ? await Track.find(keys) : await Track.find(keys, {}, {populate: 'user'});
     return tracks;
   }
 
   public static async update(
     keys: Object,
-    model: Object
+    model: Object,
+    populate?: Boolean
   ): Promise<Array<TrackInterface>> {
     const tracks = await Track.find(keys);
-    tracks.map(async (track) => {
-      return await track.updateOne(model);
-    });
-    return await Track.find(keys);
+    
+    for(const track of tracks) {
+      await track.updateOne(model);
+    }
+
+    const updatedTracks = await Track.find(keys, {}, {populate: 'user'});
+
+    return updatedTracks;
   }
 
   public static async delete(keys: Object): Promise<boolean> {

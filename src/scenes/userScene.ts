@@ -73,10 +73,11 @@ userScene.action(/^desc-(.*)$/, async (ctx) => {
   const trackId = ctx.match[1];
   const track = (await TrackService.listar(trackId))[0];
 
-  if (!track) return;
+  if (!track) 
+    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
 
   if (track.status?.length) {
-    await ctx.replyWithHTML(
+    return await ctx.replyWithHTML(
       `➡️ <b>${track.description.toUpperCase()}</b>
 ${track.code.toUpperCase()}
 ${`${track.type}`}
@@ -91,7 +92,7 @@ ${_statusIndicator(track.status[track.status.length - 1])} Status atual:\n${
       ])
     );
   } else {
-    await ctx.replyWithHTML(
+    return await ctx.replyWithHTML(
       `<b>${track.description.toUpperCase()}</b>
 
 ❌ Rastreio não existente!
@@ -109,34 +110,32 @@ userScene.action(/^fullDesc-(.*)$/, async (ctx) => {
   const trackId = ctx.match[1];
   const track = (await TrackService.listar(trackId))[0];
 
-  if (!track) return;
+  if (!track) 
+    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
 
   const allStatus = track.status;
   if (!allStatus || !allStatus.length) return;
-  await ctx.replyWithHTML(`📃 <b>Histórico de rastreio:</b>
+  return await ctx.replyWithHTML(`📃 <b>Histórico de rastreio:</b>
+${track.code}
 
 ${allStatus
   .map((status) => {
-    return `${status.unity.city} / ${status.unity.state.toUpperCase()}📍
-${status.description} ${_statusIndicator(status)}
+    return`${!status.unity ? '' : `${!status.unity.type ? `` : `${status.unity.type === 'País' ? `EXTERIOR 🌎` : `${status.unity.city} / ${status.unity.state.toUpperCase()} 📍`}`}
+${status.description} ${_statusIndicator(status)}`}
 ${
   status.dateTime
-    ? DateTime.fromJSDate(status.dateTime)
+    ? `${DateTime.fromJSDate(status.dateTime)
         .setLocale('pt-br')
-        .toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)
-    : ''
-} 🗓️
-Local: ${
-      status.unity.type
-    } - ${status.unity.city.toUpperCase()} / ${status.unity.state.toUpperCase()} 📌${
-      status.destiny
-        ? `\nDestino: ${
-            status.unity.type
-          } - ${status.destiny.city.toUpperCase()} / ${status.destiny.state.toUpperCase()} 🛫`
-        : ``
-    }`;
+        .toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)} 🗓️`
+    : ``
+}
+${!status.unity ? `` : `Local: ${!status.unity.type? `Desconhecido 🌐` : `${status.unity.type === 'País' ? `País de Origem 📌` : `${status.unity.type} - ${status.unity.city} / ${status.unity.state.toUpperCase()} 📌`}`}`}
+${
+  !status.destiny 
+    ? `` 
+    : `Destino: ${!status.destiny.type ? `Desconhecido 🌐` : `${status.destiny.type === 'País' ? `País de Origem 📌` : `${status.destiny.type} - ${status.destiny.city} / ${status.destiny.state.toUpperCase()} 🛫`}`}`}\n`;
   })
-  .join('\n\n')}`);
+  .map(field => field.trimEnd()).join('\n\n')}`);
 });
 
 const _statusIndicator = (
@@ -148,6 +147,8 @@ const _statusIndicator = (
       return '🏁';
     case 'OEC':
       return '🏠';
+    case 'PAR':
+      return '🇧🇷';
     case 'RO':
       return '🚚';
     case 'DO':
@@ -176,7 +177,13 @@ Tente novamente em alguns minutos.`);
 
 userScene.action(/^edit-(.*)$/, async (ctx) => {
   const trackId = ctx.match[1];
-  await ctx.replyWithHTML(`O que você gostaria de editar?`,
+
+  const track = (await TrackService.listar(trackId))[0];
+
+  if (!track) 
+    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
+  
+  return await ctx.replyWithHTML(`O que você gostaria de editar?`,
   Markup.inlineKeyboard([
     Markup.button.callback('Descrição', `editDesc-${trackId}`),
     Markup.button.callback('Código', `editCode-${trackId}`)
@@ -186,12 +193,24 @@ userScene.action(/^edit-(.*)$/, async (ctx) => {
 
 userScene.action(/^editDesc-(.*)$/, async (ctx) => {
   const trackId = ctx.match[1];
+
+  const track = (await TrackService.listar(trackId))[0];
+
+  if (!track) 
+    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
+
   ctx.trackID = trackId;
-  ctx.scene.enter('trackUpdateDescScene');
+  return ctx.scene.enter('trackUpdateDescScene');
 });
 
 userScene.action(/^editCode-(.*)$/, async (ctx) => {
   const trackId = ctx.match[1];
+
+  const track = (await TrackService.listar(trackId))[0];
+
+  if (!track) 
+    return await ctx.replyWithHTML('Não foi possível realizar essa operação pois o Track não existe mais! 😕');
+
   ctx.trackID = trackId;
-  ctx.scene.enter('trackUpdateCodeScene');
+  return ctx.scene.enter('trackUpdateCodeScene');
 });

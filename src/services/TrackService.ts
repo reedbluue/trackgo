@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { TrackDao } from '../daos/TrackDao.js';
 import { TrackCreateError, TrackDeleteError, TrackReadError } from '../errors/trackErrors.js';
-import { StatusInterface } from '../interfaces/StatusInterface.js';
+import { TrackerHelper } from '../helpers/TrackerHelper.js';
 import { TrackInterface } from '../interfaces/TrackInterface.js';
 
 export abstract class TrackService {
@@ -54,6 +54,40 @@ export abstract class TrackService {
       if(!updateReturn || updateReturn.length)
         return null;
       return updateReturn;
+    } catch(err) {
+      throw new TrackReadError(err);
+    }
+  }
+
+  public static async atualizarTodasAsTracks() {
+    try {
+      const allTracks = await TrackDao.read({}, true);
+      const tracksToUpdate = allTracks.filter(track => {
+        if(!track.status || !track.status.length)
+          return true;
+        return track.status[track.status.length - 1].code !== 'BDE';
+      });
+
+      const rawTracks = await TrackerHelper.returnFrom(tracksToUpdate.map(tracks => tracks.code));
+
+      let updatedTracks: Array<Array<TrackInterface>> = [];
+
+      let i = 0;
+
+      for(const track of tracksToUpdate) {
+        const same = track.code == rawTracks[i].code;
+        const statusNotExists = (!track.status && !rawTracks[i].status) || !rawTracks[i].status;
+        const isNotSameLength = (track.status?.length == rawTracks[i].status?.length);
+          
+        if(same && !statusNotExists && !isNotSameLength) {
+          const updatedTrack = await TrackDao.update({ _id: track.id }, rawTracks[i]);
+          updatedTracks = [...updatedTracks, updatedTrack];
+        }
+
+        i++;
+      }
+
+      return updatedTracks;
     } catch(err) {
       throw new TrackReadError(err);
     }

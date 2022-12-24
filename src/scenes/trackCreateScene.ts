@@ -60,7 +60,7 @@ Com dificuldade? Digite <code>/ajuda</code>!`);
       try {
         const rawTrack = await TrackerHelper.returnFrom([ctx.scene.session.code]);
 
-        const track = await TrackService.adicionar({
+        await TrackService.adicionar({
           code: rawTrack[0].code,
           description: ctx.scene.session.description,
           type: rawTrack[0].type,

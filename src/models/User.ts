@@ -7,6 +7,11 @@ const UserSchema = new mongoose.Schema<UserInterface>({
     required: true,
     unique: true,
   },
+  chatId: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
