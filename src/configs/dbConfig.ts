@@ -18,7 +18,7 @@ export const startDbConnection = async (): Promise<void> => {
     try {
       console.log('Iniciando conexão com o banco de dados...');
       await mongoose.connect(URI);
-      console.log(chalk.green('Sucesso na conexão com o banco de dados!'));
+      return console.log(chalk.green('Sucesso na conexão com o banco de dados!'));
     } catch (err) {
       throw new DbConnectionError();
     }
