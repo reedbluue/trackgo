@@ -17,14 +17,14 @@ Tenha todas as informações dos seus Tracks a uma mensagem de distância com a 
 - [x] Adaptação da versão 1.0.0 para TypeScript
 - [x] Unificar API e BOT em um único serviço
 - [x] Simplificar requisições ao banco de dados (agora utilizando banco NoSQL)
-- [x] Adicionar suporte a multi-usuários
+- [x] Adicionar suporte a multiusuários
 - [x] Cadastro de usuário via Token (durante a fase de testes de convidados)
 - [x] Sistema de autenticação de usuários (evitar utilização de não convidados)
 - [x] Sistema de timeout para espera do servidor por respostas do cliente
 - [x] Adicionado rotas para checar a saúde do servidor
 - [x] Adicionar instruções de boas-vindas e comandos de ajuda
 - [x] Melhoria das mensagens (mais objetivas)
-- [x] Navegação facilitada com botões de navegação in-line, menu de instruções e comandos interativos
+- [x] Navegação facilitada com botões de navegação inline, menu de instruções e comandos interativos
 - [x] Adicionado feedback flutuante de ações
 - [x] Resolver bug que impede atualização imediata de novas Tracks
 
