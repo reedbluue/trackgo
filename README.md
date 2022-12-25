@@ -21,6 +21,7 @@ Tenha todas as informações dos seus Tracks a uma mensagem de distância com a 
 - [x] Cadastro de usuário via Token (durante a fase de testes de convidados)
 - [x] Sistema de autenticação de usuários (evitar utilização de não convidados)
 - [x] Sistema de timeout para espera do servidor por respostas do cliente
+- [x] Adicionado rotas para checar a saúde do servidor
 - [x] Adicionar instruções de boas-vindas e comandos de ajuda
 - [x] Melhoria das mensagens (mais objetivas)
 - [x] Navegação facilitada com botões de navegação in-line, menu de instruções e comandos interativos
@@ -38,7 +39,7 @@ O projeto ainda está em desenvolvimento e próximas atualizações serão volta
 
 ## ☕ Usando o TrackGo Bot
 
-Para utilizar o TrackGo Bot, basta iniciar uma conversa no [chat do Telegram](https://t.me/@TrackGo_Bot) :)
+Para utilizar o TrackGo Bot, basta iniciar uma conversa no [chat do Telegram](https://t.me/TrackGo_Bot) :)
 
 ### Comandos do chat
 
