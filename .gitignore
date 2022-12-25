@@ -1,0 +1,6 @@
+.env
+/node_modules
+/build
+/.vscode
+teste.js
+resultado.json
